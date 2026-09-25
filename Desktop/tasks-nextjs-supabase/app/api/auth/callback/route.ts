@@ -8,9 +8,7 @@ export async function GET(request: NextRequest) {
   const requestUrl= new URL(request.url);
 
 
-
-
-  const { searchParams } = new URL(request.url)
+  const { searchParams } = requestUrl;
   const token_hash = searchParams.get('token_hash')
   const type = searchParams.get('type') as EmailOtpType | null
   const next = '/account'
@@ -28,6 +26,13 @@ export async function GET(request: NextRequest) {
       type,
       token_hash,
     })
+
+    if (type === 'email') {
+        return NextResponse.redirect(`${requestUrl.origin}/dashboard`)
+    }
+
+
+
     if (!error) {
       redirectTo.searchParams.delete('next')
       return NextResponse.redirect(redirectTo)
