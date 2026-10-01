@@ -15,10 +15,11 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useState } from "react";
+import { use, useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import { AuthFormProps } from "./AuthForm";
+import { sendRecoveyEmail } from "@/actions/auth/auth";
 
 
 const RecoverPasswordForm = ({ setTypeSelected }: AuthFormProps) => {
@@ -49,7 +50,7 @@ const RecoverPasswordForm = ({ setTypeSelected }: AuthFormProps) => {
 
         try {
       
-            console.log(user);
+            const res = await sendRecoveyEmail(user)
             
 
         } catch (error: any) {

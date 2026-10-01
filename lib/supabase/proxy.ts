@@ -1,4 +1,3 @@
-import { getUser } from '@/actions/auth/get-user'
 import { createServerClient } from '@supabase/ssr'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -23,36 +22,28 @@ export async function updateSession(request: NextRequest) {
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options)
           )
-         
         },
       },
     }
   )
 
-    const user = await getUser();
+  const { data: { user } } = await supabase.auth.getUser()
 
-    const protectedRoutes = [
-      '/dashboard',
-      '/profile',
-      '/update-password'
-    ];
+  const protectedRoutes = [
+    '/dashboard',
+    '/profile',
+    '/update-password'
+  ];
 
+  //Si no hay usuario autenticado y esta intentando acceder a rutas protegidas, redirigir al login
+  if (!user && protectedRoutes.includes(request.nextUrl.pathname)) {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
 
-    //Si no hay usuario auntenticado y esta intentando acceder a rutas protegidas,redirigir al login
-
-
-    if (!user&& protectedRoutes.includes(request.nextUrl.pathname)){
-      return NextResponse.redirect(new URL('/', request.url))
-    }
-
-    //Si hay usuario auntenticado y esta intentando acceder a login,redirigir al dashboard
-
-    if(user&& request.nextUrl.pathname === '/'){
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-
-    }
-
-
+  //Si hay usuario autenticado y esta intentando acceder a login, redirigir al dashboard
+  if (user && request.nextUrl.pathname === '/') {
+    return NextResponse.redirect(new URL('/dashboard', request.url))
+  }
 
   return supabaseResponse
 }

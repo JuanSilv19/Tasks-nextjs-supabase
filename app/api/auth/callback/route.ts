@@ -32,6 +32,14 @@ export async function GET(request: NextRequest) {
     }
 
 
+    if (type === 'recovey') {
+        return NextResponse.redirect(`${requestUrl.origin}/update-password`)
+    }
+
+
+
+
+
 
     if (!error) {
       redirectTo.searchParams.delete('next')
