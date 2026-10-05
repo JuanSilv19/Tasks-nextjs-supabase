@@ -18,10 +18,14 @@ import { LoaderCircle } from "lucide-react";
 import toast from "react-hot-toast";
 
 import Link from "next/link";
+import { updatePassword } from "@/actions/auth/auth";
+import { useRouter } from "next/router";
 
 
 const UpdatePasswordForm = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
+
+    const router =useRouter();
 
     const formSchema = z.object({
         password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
@@ -47,7 +51,13 @@ const UpdatePasswordForm = () => {
 
         try {
 
-            console.log(data);
+            const res =await updatePassword(data)
+
+            if(res.success){
+                toast.success(res.message,{duration: 2500});
+                router.push ('/profile');
+            }
+
 
 
         } catch (error: any) {
