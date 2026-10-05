@@ -19,7 +19,7 @@ import toast from "react-hot-toast";
 
 import Link from "next/link";
 import { updatePassword } from "@/actions/auth/auth";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 
 const UpdatePasswordForm = () => {
