@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
     }
 
 
-    if (type === 'recovey') {
+    if (type === 'recovery') {
         return NextResponse.redirect(`${requestUrl.origin}/update-password`)
     }
 

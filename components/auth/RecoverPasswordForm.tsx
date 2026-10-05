@@ -50,7 +50,14 @@ const RecoverPasswordForm = ({ setTypeSelected }: AuthFormProps) => {
 
         try {
       
-            const res = await sendRecoveyEmail(user)
+            const res = await sendRecoveyEmail(user);
+
+            if(res.success){
+                toast.success(res.message, {duration: 2500})
+                setTypeSelected('sign-in');
+
+            }
+
             
 
         } catch (error: any) {
