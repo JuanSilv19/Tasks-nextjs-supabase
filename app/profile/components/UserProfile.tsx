@@ -23,6 +23,9 @@ import {
 import Link from 'next/link';
 
 import Image from 'next/image';
+import { useAuth } from '@/context/AuthContext';
+import { userAgent } from 'next/server';
+import { convertSegmentPathToStaticExportFilename } from 'next/dist/shared/lib/segment-cache/segment-value-encoding';
 
 // Función para obtener las iniciales del nombre
 export const getInitials = (name: string | null) => {
@@ -60,14 +63,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
     className = ''
 }) => {
 
-    const { user, isLoading } = {
-        user: {
-            name: 'Yorch Dev',
-            email: 'components@yorch-dev.com',
-            avatar_url: '/img/yorch_avatar_n.webp'
-        },
-        isLoading: false,
-    };
+    const {user, isLoading} = useAuth()
     const [profile, setProfile] = useState<UserProfileData | null>(user as UserProfileData);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
@@ -77,6 +73,12 @@ const UserProfile: React.FC<UserProfileProps> = ({
         setIsEditDialogOpen(true);
         if (onEditProfile) onEditProfile();
     };
+
+    useEffect(() => {
+        if (user) {
+            setProfile(user);
+    }
+}, [user]);
 
     if (isLoading) {
         return (
