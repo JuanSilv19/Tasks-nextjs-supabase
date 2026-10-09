@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input"
 import Image from 'next/image'
 import PhoneInput from "@/components/phoneInput"
 import { updateAvatar } from '@/actions/auth/update-avatar'
+import { getImageUrl } from '@/lib/utils'
 
 
 const profileSchema = z.object({
@@ -148,7 +149,7 @@ export default function AccountForm({
 
                             <Image
                                 className="object-cover w-full h-full rounded-full"
-                                src={avatarUrl}
+                                src={getImageUrl(avatarUrl)}
                                 width={1000}
                                 height={1000}
                                 alt="user-img"
