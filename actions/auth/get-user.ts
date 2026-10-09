@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server"
+import { User } from "@/interfaces/user"
 
-export const getUser = async () => {
+export const getUser = async (): Promise<User | null> => {
 
   try {
     const supabase = await createClient()
