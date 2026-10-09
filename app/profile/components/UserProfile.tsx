@@ -26,6 +26,7 @@ import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
 import { userAgent } from 'next/server';
 import { convertSegmentPathToStaticExportFilename } from 'next/dist/shared/lib/segment-cache/segment-value-encoding';
+import AccountForm from './AccountForm';
 
 // Función para obtener las iniciales del nombre
 export const getInitials = (name: string | null) => {
@@ -63,7 +64,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
     className = ''
 }) => {
 
-    const {user, isLoading} = useAuth()
+    const {user, isLoading,getUserData} = useAuth()
     const [profile, setProfile] = useState<UserProfileData | null>(user as UserProfileData);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
@@ -230,6 +231,25 @@ const UserProfile: React.FC<UserProfileProps> = ({
 
                 </CardContent>
             </Card>
+
+
+     <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}  >
+  
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Editar Perfil</DialogTitle>
+      <DialogDescription>
+        Realiza cambios de tu perfil aqui. Haz clic en guardar cuando haya terminado
+      </DialogDescription>
+    </DialogHeader>
+
+    <AccountForm
+    user={profile}
+    onSuccess={() => {setIsEditDialogOpen(false); getUserData();}}
+    
+    />
+  </DialogContent>
+</Dialog>
 
 
         </>
