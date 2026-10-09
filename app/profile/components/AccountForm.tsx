@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input"
 import Image from 'next/image'
 import PhoneInput from "@/components/phoneInput"
+import { updateAvatar } from '@/actions/auth/update-avatar'
 
 
 const profileSchema = z.object({
@@ -106,6 +107,17 @@ export default function AccountForm({
         setIsLoadingImage(true)
 
         try {
+
+            const formData = new FormData();
+            formData.append('file',file);
+            formData.append('userId',user.id);
+
+            const response = await updateAvatar(formData);
+
+            if (response.publicUrl) {
+                setAvatarUrl(response.publicUrl);
+                toast.success('Avatar Actualizado')
+            }
 
 
 
