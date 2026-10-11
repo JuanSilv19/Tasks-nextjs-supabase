@@ -196,7 +196,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
                             </Button>
 
 
-                            <Link href="/#" intermediate-link="true">
+                            <Link href="update-password" intermediate-link="true">
                                 <Button
                                     variant="outline"
                                     className="w-full justify-start h-14"
