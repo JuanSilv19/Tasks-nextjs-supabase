@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { CircleUserRound, Loader2, LoaderCircle, Pencil } from "lucide-react"
+import { CircleUserRound, Loader2, LoaderCircle, Pencil, Phone } from "lucide-react"
 import toast from 'react-hot-toast'
 
 import { Button } from "@/components/ui/button"
@@ -22,6 +22,7 @@ import Image from 'next/image'
 import PhoneInput from "@/components/phoneInput"
 import { updateAvatar } from '@/actions/auth/update-avatar'
 import { getImageUrl } from '@/lib/utils'
+import { updateProfile } from '@/actions/auth/update-profile'
 
 
 const profileSchema = z.object({
@@ -76,7 +77,16 @@ export default function AccountForm({
         try {
             setLoading(true)
 
-            console.log(values);
+            const res = await updateProfile({
+                id: user?.id,
+                name: values.name,
+                phone: values.phone,
+                country_code: values.country_code,
+
+        })
+
+        toast.success('¡Perfil Actualizado con Exito!')
+
 
             if (onSuccess) onSuccess()
         } catch (error) {
